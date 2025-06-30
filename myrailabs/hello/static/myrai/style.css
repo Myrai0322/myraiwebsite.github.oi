@@ -1,0 +1,246 @@
+body {
+    background-image: url('{% static "myrai/background.png" %}');
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    text-transform: capitalize;
+    color: color-mix(in srgb, green 50%, orange 50%);
+}
+
+h2 {
+    font-weight: 600;
+    font-size: 120%;
+}
+
+.paragraph {
+    font-style: italic;
+    text-align: center;
+}
+
+.paragrap {
+    font-style: italic;
+}
+
+.bolded {
+    font-style: bold;
+    font-style: italic;
+}
+
+.list {
+    text-align: left;
+}
+
+.list-paragraph {
+    text-align: left;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: azure;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+}
+
+.logo-container{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.logo {
+    height: 220px;
+    width: 310px;
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background: #ffffff;
+    padding: 10px 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.nav-bar a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: rgb(5, 114, 165);
+    font-weight: 500;
+    font-size: 100%;
+    font-family: arial, sans-serif;
+    transition: color 0.3s;
+}
+
+.nav-bar a:hover {
+    color: rgb(0, 217, 255);
+}
+
+.bubble {
+    background: #f0f9f0;
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 950px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    align-items: center;
+}
+
+.bubble-text {
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.bubble1 {
+    background: #f0f9f0;
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 950px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    Align-content: center;
+    align-items: center;
+}
+
+.bubble1 img {
+    max-width: 100%;
+    height: auto;
+}
+
+.photo1 {
+    width: 370px;
+    height: 200px;
+    margin: auto;
+}
+
+.tables {
+    align-self: center;
+    align-items: center;
+    margin: 0 100px;
+}
+
+.table-header {
+    background-color: rgb(12, 228, 228);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    transition:  background-image 0.3s;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+footer {
+    background-color: #1e1e1e;
+    color: #ddd;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.column {
+    flex: 1;
+    margin: 10px;
+    min-width: 200px;
+}
+
+.column h3, .column h4 {
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.colum ul {
+    list-style: none;
+    padding: 0;
+}
+
+.column ul li {
+    margin: 8px 0;
+}
+
+.column ul li a {
+    color: #ddd;
+    text-decoration: none;
+}
+
+.column ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+    body { font-size: 16px; }
+}
+
+.form-container {
+    display: flow-root;
+    padding: 20px;
+    margin: 20px;
+    gap: 90px;
+
+}
+
+#forms {
+    background: background-image;
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 950px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    Align-content: center;
+    align-items: center;
+}
+
+form {
+    padding: 20px;
+}
+
+button {
+    background-color: red !important;
+}

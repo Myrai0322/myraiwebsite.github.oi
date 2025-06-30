@@ -1,0 +1,28 @@
+{% extends "myrai/layout.html" %}
+
+{% block title %}About{% endblock %}
+{% block content %}
+<h1>ABOUT US</h1>
+
+<div class="bubble">
+    <h2>Our Mission</h2>
+    <p>To empower startups, professionals, and organizations with digital-first, human-centered solutions, designed for impact, sustainability, and growth in the African context.</p>
+</div>
+
+<div class="bubble">
+    <h2>Our Vision</h2>
+    <p>To become South Africa's leeading innovation lab, where tech meets creativity, helping build a future-ready ecosystem of bands, apps, and empowered entrepreneurs.</p>
+</div>
+
+
+<div class="pagination">
+    <a href="#">&laquo;</a>
+    <a href="{% url 'index' %}">1</a>
+    <a href="{% url 'about' %}">2</a>
+    <a href="{% url 'services' %}">3</a>
+    <a href="{% url 'contact' %}">4</a>
+    <a href="#">&raquo;</a>
+</div>
+        
+{% endblock %}
+        

@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registration</title>
+        <link rel="stylesheet" href="{% static 'myrai/style.css' %}">
+    </head>
+    <body>
+        <header class="header">
+            <div class="logo-container">
+                <img src="{% static 'myrai/ChatGPT Image Jun 22, 2025, 06_09_30 AM.png' %}" alt="Myrai Labs" class="logo">
+            </div>
+        </header>
+
+        <div class="forms">
+        {% csrf_token %}
+            <form>
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </body>
+</html>

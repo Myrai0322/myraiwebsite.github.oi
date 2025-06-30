@@ -1,0 +1,16 @@
+{% extends "myrai/layout.html" %}
+
+{% block title %}Contacts{% endblock %}
+
+{% block content %}
+<h1>OUR CONTACTS</h1>
+
+<div class="pagination">
+    <a href="#">&laquo;</a>
+    <a href="{% url 'index' %}">1</a>
+    <a href="{% url 'about' %}">2</a>
+    <a href="{% url 'services' %}">3</a>
+    <a href="{% url 'contact' %}">4</a>
+    <a href="#">&raquo;</a>
+</div>
+{% endblock %}        

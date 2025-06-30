@@ -1,0 +1,45 @@
+{% extends "myrai/layout.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<div>
+    <h1>MYRAI LABS</h1>
+    <p class="paragraph">Inventing Tommorow, Today!</p>
+</div>
+
+<div class="bubble1">
+    <h2>Welcome Message</h2>
+    <p>At Myrai Lab, we merge technology, creativity, and strategic insight to build solutions that are not just beautiful, but future-ready. Whether you're launching a business, upgrading your brand, or building a digital product, Myrai is your trusted partner for tommorow's success, starting today. </p>
+    {% block image %}
+    <img src="{% static 'myrai/file_00000000e2c461f8812e028ff9c10bb3.png' %}" class="photo1">
+    {% endblock %}
+</div>
+
+<div class="bubble">
+    <h2>Why Choose Us</h2>
+    <ul>
+        <li class="list">&#129504; Future-Driven Thinking:</li>
+        <p class="list-paragraph">We're inspired by innovation, driven by impact, and grounded in forward-thinking strategy.</p>
+        <li class="list">&#128735; All-in-One Studio:</li>
+        <p class="list-paragraph">From app development to brand identify and business consulting, all under one creative roof.</p>
+        <li class="list">&#127758; Proudly South African:</li>
+        <p class="list-paragraph">Our solutions are tailored for local relevance and community upliftment.</p>
+        <li class="list">&#128218; Empowerment Through Education:</li>
+        <p class="list-paragraph">We equip clients with knowledge and training, not just finished products.</p>
+    </ul>
+</div>
+
+<div class="pagination">
+    <a href="#">&laquo;</a>
+    <a href="{% url 'index' %}">1</a>
+    <a href="{% url 'about' %}">2</a>
+    <a href="{% url 'services' %}">3</a>
+    <a href="{% url 'contact' %}">4</a>
+    <a href="#">&raquo;</a>
+</div>
+
+{% endblock %}
+

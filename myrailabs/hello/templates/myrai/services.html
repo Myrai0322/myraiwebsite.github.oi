@@ -1,0 +1,74 @@
+{% extends "myrai/layout.html" %}
+
+{% block title %}Services{% endblock %}
+
+{% block content %}
+<h1>OUR SERVICES</h1>
+<div class="bubble">
+    <h2 class="table-heading">&#128295; Myrai Digital (Web & App Development)</h2>
+    <table border="1" class="tables">
+        <thead class="table-header">
+            <tr><th>Services</th><th>Price Range (ZAR)</th><th>Details</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Basic Website</td><td>R5,000 - R15,000</td><td>5 pages, mobile-friendly, fast, SEO-ready</td></tr>
+            <tr><td>E-commerce Website</td><td>R20,000 - R50,000</td><td>Product catalog, cart, payment, admin panel</td></tr>
+            <tr><td>Website/App Maintainance</td><td>R500 - R1,200/month</td><td>Bug fixes, backups, updates</td></tr>
+            <tr><td>Mobile App (MVP)</td><td>R30,000 - R80,000</td><td>Cross-platform, core features only</td></tr>
+        </tbody>
+    </table>
+</div>
+        
+<div class="bubble">
+    <h2 class="table-heading">&#127912; Myrai Creative (Branding & Design)</h2>
+    <table border="1" class="tables">
+        <thead class="table-header">
+            <tr><th>Services</th><th>Price Range (ZAR)</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Logo Design</td><td>R1,500 - R5,000</td><td>3-5 concepts, 2 revisions</td></tr>
+            <tr><td>Brand Kit</td><td>R2,000 - R7,000</td><td>Logo + fonts + color scheme</td></tr>
+            <tr><td>CV + Cover Letter</td><td>R800 - R2,500</td><td>ATS-Friendly, clean design</td></tr>
+            <tr><td>Motivational Letter</td><td>R600 - R1,800</td><td>Tailored for bursaries, jobs</td></tr>
+            <tr><td>Business Plan</td><td>R2,000 - R7,000</td><td>Editable, professional visual layout</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="bubble">
+    <h2 class="table-heading">&#128202; Myrai Advisory (Strategy & Support)</h2>
+    <table border="1" class="tables">
+        <thead class="table-header">
+            <tr><th>Services</th><th>Included Services</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Business Consulting</td><td>Digital transformation, strategy, market fit</td></tr>
+            <tr><td>Tech Advisory</td><td>Tool Recommendation, workflow optimization</td></tr>
+            <tr><td>Entrepreneurship Support</td><td>Start-up packs, investor decks,business identity</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="bubble">
+    <h2 class="table-heading">&#128188; Bundles & Packages</h2>
+    <table border="1" class="tables">
+        <thead class="table-header">
+            <tr><th>Bundle</th><th>Price Range (ZAR)</th><th>Includes</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Startup Kit</td><td>R10,000 - R18,000</td><td>Logo + 5-page Website + Business Email Setup</td></tr>
+            <tr><td>Job Seeker Pack</td><td>R2,000</td><td>CV + Cover Letter + LinkedIn Optimization</td></tr>
+            <tr><td>Pro Banding Kit</td><td>R6,500 - R9,000</td><td>Logo + Brand Book + Pich Deck or Presentation Template</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination">
+    <a href="#">&laquo;</a>
+    <a href="{% url 'index' %}">1</a>
+    <a href="{% url 'about' %}">2</a>
+    <a href="{% url 'services' %}">3</a>
+    <a href="{% url 'contact' %}">4</a>
+    <a href="#">&raquo;</a>
+</div>
+{% endblock %}

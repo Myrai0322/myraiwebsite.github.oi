@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Myrai Labs{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'myrai/style.css' %}">
+    </head>
+    <body>
+        <header class="header">
+            <div class="logo-container">
+                <img src="{% static 'myrai/ChatGPT Image Jun 22, 2025, 06_09_30 AM.png' %}" alt="Myrai Labs" class="logo">
+            </div>
+            <nav class="nav-bar">
+                <a href="{% url 'index' %}">Home</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'services' %}">Services</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </nav>
+        </header>
+        <main>
+            {% block content %}
+            
+
+            {% endblock %}
+        </main>
+        <footer>
+            <div class="footer-content">
+                <div class="column">
+                    <h3>Myrai Labs</h3>
+                    <p class="paragrap">Inventing Tommorow, Today</p>
+                </div>
+                <div class="column">
+                    <h4>QUICK LINKS</h4>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About</a></li>
+                        <li><a href="{% url 'services' %}">Services</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>     
+                </div>
+                <div class="column">
+                    <h4>Contact</h4>
+                    <p><b>EMAIL:</b> info@myrailabs.com</p>
+                    <p><b>PHONE:</b> 078 233 9131</p>
+                    <p><b>LOCATION:</b> Giyani, Limpopo, South Africa, 0826</p>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Myrai Labs. All rights resrved.</p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registration</title>
+        <link rel="stylesheet" href="{% static 'myrai/style.css' %}">
+        <style>
+            body {
+                background-image: url('{% static "myrai/background.png" %}');
+            }
+        </style>
+    </head>
+    <body>
+        <header class="header">
+            <div class="logo-container">
+                <img src="{% static 'myrai/logo.png' %}" alt="Myrai Labs" class="logo">
+            </div>
+        </header>
+    
+        <div id="forms" style="border-radius: 20px; padding: 25px; max-width: 950px; margin: 20px auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); align-items: center; width: 600px; background-color: rgb(221, 240, 154); border: 2px; border-radius: 2px;">
+            {% csrf_token %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" style="background-color: rgb(11, 36, 94); text-align: center; font-size: larger; align-items: center;">REGISTER</button>
+            </form>
+        </div>
+    </body>
+</html>
