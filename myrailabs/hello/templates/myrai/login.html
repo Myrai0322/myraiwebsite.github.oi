@@ -1,27 +1,27 @@
+{% extends "myrai/layout.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Registration</title>
-        <link rel="stylesheet" href="{% static 'myrai/style.css' %}">
-    </head>
-    <body>
-        <header class="header">
-            <div class="logo-container">
-                <img src="{% static 'myrai/ChatGPT Image Jun 22, 2025, 06_09_30 AM.png' %}" alt="Myrai Labs" class="logo">
-            </div>
-        </header>
+{% block title %}Sign in — {{ BUSINESS.name }}{% endblock %}
 
-        <div class="forms">
-        {% csrf_token %}
-            <form>
-                <input type="text" name="username" placeholder="Username">
-                <input type="password" name="password" placeholder="Password">
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    </body>
-</html>
+{% block content %}
+<div class="auth-wrap">
+    <div class="bubble auth-card">
+        <h1>SIGN IN</h1>
+        <p class="page-intro">Welcome back. Sign in to reach your dashboard.</p>
+        <form method="post" class="stack-form">
+            {% csrf_token %}
+            <div class="form-row">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required autofocus autocomplete="username">
+            </div>
+            <div class="form-row">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required autocomplete="current-password">
+            </div>
+            <input type="hidden" name="next" value="{{ request.GET.next|default:'' }}">
+            <button type="submit" class="btn primary-btn full-width">Sign in &#8594;</button>
+        </form>
+        <p class="auth-alt">New here? <a href="{% url 'register' %}">Create an account</a></p>
+    </div>
+</div>
+{% endblock %}

@@ -1,56 +1,107 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Myrai Labs{% endblock %}</title>
-        <link rel="stylesheet" href="{% static 'myrai/style.css' %}">
-    </head>
-    <body>
-        <header class="header">
-            <div class="logo-container">
-                <img src="{% static 'myrai/ChatGPT Image Jun 22, 2025, 06_09_30 AM.png' %}" alt="Myrai Labs" class="logo">
-            </div>
-            <nav class="nav-bar">
-                <a href="{% url 'index' %}">Home</a>
-                <a href="{% url 'about' %}">About</a>
-                <a href="{% url 'services' %}">Services</a>
-                <a href="{% url 'contact' %}">Contact</a>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ BUSINESS.name }} — Digital Agency{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ BUSINESS.tagline }} Academic, business and technology solutions from Giyani, Limpopo — powered by data and innovation.{% endblock %}">
+    <link rel="icon" href="{% static 'myrai/logo.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'myrai/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="{% url 'index' %}">
+                <img src="{% static 'myrai/logo.png' %}" alt="{{ BUSINESS.name }} logo" class="logo">
+                <span class="brand-text">MYRAI<b class="text-white">—</b><b>LABS</b></span>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+            <nav class="nav-bar" id="main-nav">
+                <a href="{% url 'index' %}" class="{% block nav_home %}{% endblock %}">Home</a>
+                <a href="{% url 'services' %}" class="{% block nav_services %}{% endblock %}">Services</a>
+                <a href="{% url 'quote_status' %}" class="{% block nav_status %}{% endblock %}">Track Order</a>
+                <a href="{% url 'about' %}" class="{% block nav_about %}{% endblock %}">About</a>
+                <a href="{% url 'contact' %}" class="{% block nav_contact %}{% endblock %}">Contact</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'admin:index' %}" class="nav-cta ghost">Dashboard</a>
+                    <form method="post" action="{% url 'logout' %}" class="inline-form">{% csrf_token %}
+                        <button type="submit" class="nav-cta ghost">Sign out</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-cta ghost">Sign in</a>
+                    <a href="{% url 'request_quote' %}" class="nav-cta">Get a Quote</a>
+                {% endif %}
             </nav>
-        </header>
-        <main>
-            {% block content %}
-            
+        </div>
+    </header>
 
-            {% endblock %}
-        </main>
-        <footer>
-            <div class="footer-content">
-                <div class="column">
-                    <h3>Myrai Labs</h3>
-                    <p class="paragrap">Inventing Tommorow, Today</p>
-                </div>
-                <div class="column">
-                    <h4>QUICK LINKS</h4>
-                    <ul>
-                        <li><a href="{% url 'index' %}">Home</a></li>
-                        <li><a href="{% url 'about' %}">About</a></li>
-                        <li><a href="{% url 'services' %}">Services</a></li>
-                        <li><a href="{% url 'contact' %}">Contact</a></li>
-                    </ul>     
-                </div>
-                <div class="column">
-                    <h4>Contact</h4>
-                    <p><b>EMAIL:</b> info@myrailabs.com</p>
-                    <p><b>PHONE:</b> 078 233 9131</p>
-                    <p><b>LOCATION:</b> Giyani, Limpopo, South Africa, 0826</p>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2025 Myrai Labs. All rights resrved.</p>
-                </div>
+    {% if messages %}
+        <div class="flash-stack">
+            {% for message in messages %}
+                <div class="flash flash-{{ message.tags|default:'info' }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>{{ BUSINESS.name }}</h3>
+                <p class="footer-tagline">{{ BUSINESS.tagline }}</p>
+                <p class="footer-note">A multi-disciplinary digital agency delivering academic, business and technology solutions — powering the future through data and innovation.</p>
             </div>
-        </footer>
-    </body>
+            <div class="footer-col">
+                <h4>QUICK LINKS</h4>
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'services' %}">Services &amp; Prices</a></li>
+                    <li><a href="{% url 'request_quote' %}">Request a Quote</a></li>
+                    <li><a href="{% url 'quote_status' %}">Track Your Order</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>CONTACT</h4>
+                <p><b>EMAIL:</b> {{ BUSINESS.email }}</p>
+                <p><b>CALL/WHATSAPP:</b> {{ BUSINESS.phone }}</p>
+                <p><b>LOCATION:</b> {{ BUSINESS.location }}</p>
+                <a class="btn whatsapp-btn footer-wa" href="{{ wa_footer }}">
+                    <span class="wa-icon">&#128172;</span> Chat on WhatsApp
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; {% now "Y" %} {{ BUSINESS.name }}. All rights reserved.</p>
+            <p class="footer-slogan">From Assignments to Advanced Systems — We Build, Design, and Deliver.</p>
+        </div>
+    </footer>
+
+    <a class="whatsapp-float" href="{{ wa_float }}" target="_blank" rel="noopener" aria-label="Chat with Myrai Labs on WhatsApp">
+        <svg viewBox="0 0 32 32" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M16 2.7C8.7 2.7 2.8 8.6 2.8 15.9c0 2.3.6 4.6 1.8 6.6L2.7 29.3l7-1.8c1.9 1 4.1 1.6 6.3 1.6 7.3 0 13.2-5.9 13.2-13.2S23.3 2.7 16 2.7zm0 24.1c-2 0-3.9-.5-5.6-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.9C5 10 9.9 5.1 16 5.1s11 4.9 11 10.8-4.9 10.9-11 10.9zm6.1-8.1c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-2-1.8-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6-.1-.2-.8-1.9-1-2.6-.3-.6-.6-.5-.8-.5h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9s1.2 3.4 1.4 3.6c.2.2 2.4 3.8 5.9 5.2.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 2-.8 2.3-1.6.3-.8.3-1.5.2-1.6-.1-.2-.3-.3-.6-.4z"/></svg>
+    </a>
+
+    <script>
+        (function () {
+            var toggle = document.querySelector('.nav-toggle');
+            var nav = document.getElementById('main-nav');
+            if (toggle && nav) {
+                toggle.addEventListener('click', function () {
+                    var open = nav.classList.toggle('open');
+                    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                });
+            }
+        })();
+    </script>
+</body>
 </html>

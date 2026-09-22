@@ -1,0 +1,55 @@
+{% extends "myrai/layout.html" %}
+
+{% block title %}Request a Quote — {{ BUSINESS.name }}{% endblock %}
+{% block meta_description %}Request a free quote from Myrai Labs. Assignments from R150, websites from R2,000 — negotiable pricing, fast replies on WhatsApp.{% endblock %}
+
+{% block content %}
+<h1>REQUEST A QUOTE</h1>
+<p class="page-intro">
+    Fill this in and it lands directly on our WhatsApp + dashboard. We reply with a firm price — quotes are free, always.
+</p>
+
+<div class="split quote-split">
+    <div class="bubble form-bubble">
+        {% if selected_service %}
+            <div class="selected-service">
+                Selected service: <b>{{ selected_service.name }}</b>
+                <span class="price-chip">{{ selected_service.price_display }}</span>
+                <a href="{% url 'request_quote' %}" class="change-link">change</a>
+            </div>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data" class="stack-form">
+            {% csrf_token %}
+            <div class="hp-wrap">{{ form.website }}</div>
+            {% for field in form.visible_fields %}
+                <div class="form-row">
+                    {{ field.label_tag }}
+                    {% if field.name == "service" and selected_service %}
+                        <input type="text" value="{{ selected_service.name }} ({{ selected_service.price_display }})" disabled>
+                        <input type="hidden" name="service" value="{{ selected_service.pk }}">
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                    {% if field.help_text %}<p class="field-help">{{ field.help_text }}</p>{% endif %}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn primary-btn">Send Request &#8594;</button>
+            <p class="field-help">No account needed. You'll get an order reference (like ML-2026-1234) to track progress on this site.</p>
+        </form>
+    </div>
+
+    <div class="bubble side-bubble">
+        <h2>&#128161; Better briefs, better prices</h2>
+        <ul class="tips-list">
+            <li><b>Attach the brief</b> — a PDF or photo of your assignment sheet helps us quote exactly.</li>
+            <li><b>Give the real deadline</b> — urgent work is prioritised but priced accordingly.</li>
+            <li><b>A budget helps</b> — our pricing is negotiable, so tell us what you're working with.</li>
+            <li><b>Opt in to WhatsApp</b> — we'll ping you at every step of your order.</li>
+        </ul>
+        <div class="trust-note">
+            &#128274; Your details are only used to deliver your order. No spam, ever.
+        </div>
+    </div>
+</div>
+{% endblock %}

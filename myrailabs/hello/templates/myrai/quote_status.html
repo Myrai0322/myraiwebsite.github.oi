@@ -1,0 +1,57 @@
+{% extends "myrai/layout.html" %}
+
+{% block title %}Track Order — {{ BUSINESS.name }}{% endblock %}
+{% block nav_status %}active{% endblock %}
+
+{% block content %}
+<h1>TRACK YOUR ORDER</h1>
+<p class="page-intro">Enter the reference we sent you (e.g. <b>ML-2026-1234</b>) plus the email you used.</p>
+
+<div class="track-wrap">
+    <div class="bubble form-bubble">
+        <form method="post" class="stack-form inline-lookup">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-row">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn primary-btn">Find my order</button>
+        </form>
+    </div>
+
+    {% if quote %}
+        <div class="bubble status-card">
+            <div class="status-head">
+                <div>
+                    <span class="ref-box small">{{ quote.ref }}</span>
+                    <h2>{{ quote.service.name }}</h2>
+                    <p class="muted">Requested {{ quote.created_at|date:"d M Y, H:i" }} · Deadline: {{ quote.display_deadline }}</p>
+                </div>
+                <span class="status-pill status-{{ quote.status|lower }}">{{ quote.get_status_display }}</span>
+            </div>
+
+            <ol class="pipeline">
+                {% for stage, label in pipeline_stages %}
+                    <li class="{% if stage in quote.past_stages %}done{% endif %} {% if quote.status == stage %}current{% endif %}">
+                        <span class="dot"></span>{{ label }}
+                    </li>
+                {% endfor %}
+            </ol>
+
+            <div class="status-notes">
+                {% if quote.status == "NEW" %}<p>&#128269; We've got your request and are reviewing the brief right now.</p>
+                {% elif quote.status == "CONTACTED" %}<p>&#128172; We've reached out (check your email/WhatsApp) to confirm details.</p>
+                {% elif quote.status == "QUOTED" %}<p>&#128176; A firm quote has been sent — confirm to kick things off.</p>
+                {% elif quote.status == "IN_PROGRESS" %}<p>&#9889; Work is underway. We'll ping you if anything changes.</p>
+                {% elif quote.status == "DELIVERED" %}<p>&#128228; Delivered! Check your inbox — feedback welcome.</p>
+                {% elif quote.status == "PAID" %}<p>&#9989; Complete and paid. Thank you for supporting a Limpopo studio!</p>
+                {% elif quote.status == "CANCELLED" %}<p>&#128683; This order was cancelled. Contact us if that's a surprise.</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

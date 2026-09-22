@@ -1,0 +1,30 @@
+{% extends "myrai/layout.html" %}
+
+{% block title %}Request received — {{ quote.ref }}{% endblock %}
+
+{% block content %}
+<div class="success-wrap">
+    <div class="bubble1 success-card">
+        <div class="success-icon">&#9989;</div>
+        <h1>Request received!</h1>
+        <p class="page-intro">Your order reference is:</p>
+        <div class="ref-box">{{ quote.ref }}</div>
+        <p class="paragraph">
+            Save this reference — you can track your order any time on the
+            <a href="{% url 'quote_status' %}">Track Order</a> page using this reference and your email.
+        </p>
+        <div class="order-summary">
+            <p><b>Service:</b> {{ quote.service.name }} <span class="price-chip">{{ quote.service.price_display }}</span></p>
+            <p><b>Deadline:</b> {{ quote.display_deadline }}</p>
+        </div>
+        <p class="paragraph">&#9200; We're on it. Expect our reply within a few hours (working hours 08:00–20:00).</p>
+        <div class="hero-actions">
+            <a class="btn whatsapp-btn" target="_blank" rel="noopener"
+               href="https://wa.me/{{ WHATSAPP_NUMBER }}?text=Hi%20Myrai%20Labs!%20I%20just%20submitted%20quote%20request%20*{{ quote.ref }}*.">
+                Speed it up on WhatsApp
+            </a>
+            <a class="btn ghost-btn" href="{% url 'quote_status' %}">Track my order</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

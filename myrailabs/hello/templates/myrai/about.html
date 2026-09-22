@@ -1,28 +1,52 @@
 {% extends "myrai/layout.html" %}
 
-{% block title %}About{% endblock %}
+{% block title %}About — {{ BUSINESS.name }}{% endblock %}
+{% block nav_about %}active{% endblock %}
+
 {% block content %}
-<h1>ABOUT US</h1>
+<h1>ABOUT MYRAI LABS</h1>
 
-<div class="bubble">
-    <h2>Our Mission</h2>
-    <p>To empower startups, professionals, and organizations with digital-first, human-centered solutions, designed for impact, sustainability, and growth in the African context.</p>
+<div class="bubble1">
+    <h2>Digital Solutions. Intelligent Systems. Verified Impact.</h2>
+    <p class="paragraph">
+        Myrai Labs is a multi-disciplinary digital agency based in Giyani, Limpopo.
+        We deliver academic, business and technology solutions — powering the future
+        through data and innovation. What started as a one-laptop hustle is growing into
+        a studio that helps students pass, professionals get hired and businesses get built.
+    </p>
+    <p class="paragraph">
+        We believe world-class digital work shouldn't need a Johannesburg address or a
+        Johannesburg invoice. Every service we sell is priced openly, delivered on deadline
+        and backed by real humans you can actually reach — on the phone or on WhatsApp.
+    </p>
 </div>
 
-<div class="bubble">
-    <h2>Our Vision</h2>
-    <p>To become South Africa's leeading innovation lab, where tech meets creativity, helping build a future-ready ecosystem of bands, apps, and empowered entrepreneurs.</p>
+<div class="split about-split">
+    <div class="bubble">
+        <h2>How we work</h2>
+        <ol class="steps-list">
+            <li><b>Tell us the brief.</b> Send it via the quote form, WhatsApp or a call.</li>
+            <li><b>Get a firm quote.</b> We confirm scope, price and deadline — no surprises.</li>
+            <li><b>We build, you track.</b> Every order gets a reference like <i>ML-2026-1234</i> you can track on this site.</li>
+            <li><b>Delivery &amp; support.</b> You get the work, plus the knowledge to keep using it.</li>
+        </ol>
+    </div>
+    <div class="bubble">
+        <h2>What we stand for</h2>
+        <ul class="why-list">
+            <li><span class="why-icon">&#127942;</span><div><b>Quality first</b><p>Original work, clean code, print-ready design — every single time.</p></div></li>
+            <li><span class="why-icon">&#9203;</span><div><b>Deadlines are sacred</b><p>We'd rather under-promise than miss your submission date.</p></div></li>
+            <li><span class="why-icon">&#129309;</span><div><b>Honest pricing</b><p>The poster prices are the real prices. Negotiable, never inflated.</p></div></li>
+            <li><span class="why-icon">&#127463;</span><div><b>Local pride</b><p>Growing skills and opportunity right here in Limpopo.</p></div></li>
+        </ul>
+    </div>
 </div>
 
-
-<div class="pagination">
-    <a href="#">&laquo;</a>
-    <a href="{% url 'index' %}">1</a>
-    <a href="{% url 'about' %}">2</a>
-    <a href="{% url 'services' %}">3</a>
-    <a href="{% url 'contact' %}">4</a>
-    <a href="#">&raquo;</a>
-</div>
-        
+<section class="cta-band">
+    <h2>Ready when you are</h2>
+    <div class="hero-actions">
+        <a href="{% url 'request_quote' %}" class="btn primary-btn">Start a Project</a>
+        <a href="{% url 'services' %}" class="btn ghost-btn">Browse Prices</a>
+    </div>
+</section>
 {% endblock %}
-        

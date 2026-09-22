@@ -1,16 +1,59 @@
 {% extends "myrai/layout.html" %}
 
-{% block title %}Contacts{% endblock %}
+{% block title %}Contact — {{ BUSINESS.name }}{% endblock %}
+{% block nav_contact %}active{% endblock %}
 
 {% block content %}
 <h1>OUR CONTACTS</h1>
+<p class="page-intro">Fastest reply is on WhatsApp. Otherwise drop a message here and we'll come back to you within a day.</p>
 
-<div class="pagination">
-    <a href="#">&laquo;</a>
-    <a href="{% url 'index' %}">1</a>
-    <a href="{% url 'about' %}">2</a>
-    <a href="{% url 'services' %}">3</a>
-    <a href="{% url 'contact' %}">4</a>
-    <a href="#">&raquo;</a>
+<div class="split contact-split">
+    <div class="bubble">
+        <h2>&#128172; Chat / Call / Visit</h2>
+        <div class="contact-cards">
+            <a class="contact-card whatsapp-card" href="{{ wa_link }}" target="_blank" rel="noopener">
+                <span class="cc-icon">&#128241;</span>
+                <div>
+                    <b>Call / WhatsApp</b>
+                    <p>{{ BUSINESS.phone }}</p>
+                    <span class="cc-note">Tap to open a WhatsApp chat instantly</span>
+                </div>
+            </a>
+            <a class="contact-card" href="mailto:{{ BUSINESS.email }}">
+                <span class="cc-icon">&#9993;</span>
+                <div>
+                    <b>Email</b>
+                    <p>{{ BUSINESS.email }}</p>
+                    <span class="cc-note">For documents and formal quotes</span>
+                </div>
+            </a>
+            <div class="contact-card">
+                <span class="cc-icon">&#128205;</span>
+                <div>
+                    <b>Location</b>
+                    <p>{{ BUSINESS.location }}</p>
+                    <span class="cc-note">Remote delivery across South Africa</span>
+                </div>
+            </div>
+        </div>
+        <div class="hours-note">&#9200; Online 08:00 – 20:00, seven days a week.</div>
+    </div>
+
+    <div class="bubble">
+        <h2>&#9993; Send us a message</h2>
+        <form method="post" class="stack-form">
+            {% csrf_token %}
+            {# honeypot: hidden from humans, irresistible to bots #}
+            <div class="hp-wrap">{{ form.website }}</div>
+            {% for field in form.visible_fields %}
+                <div class="form-row">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn primary-btn">Send Message &#8594;</button>
+        </form>
+    </div>
 </div>
-{% endblock %}        
+{% endblock %}

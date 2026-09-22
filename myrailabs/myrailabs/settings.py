@@ -10,25 +10,62 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+def env(key, default=None):
+    """Read an environment variable, falling back to a local .env file if present."""
+    val = os.environ.get(key)
+    if val is not None:
+        return val
+    env_file = BASE_DIR / ".env"
+    if env_file.exists():
+        try:
+            for line in env_file.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                k, _, v = line.partition("=")
+                if k.strip() == key:
+                    return v.strip().strip('"').strip("'")
+        except OSError:
+            pass
+    return default
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-530&!d859$(w9wb-_kln9=spacz_(*f+=s@k&(4^sgini1%64a'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+def env_bool(key, default="False"):
+    return str(env(key, default)).strip().lower() in ("1", "true", "yes", "on")
 
 
-# Application definition
+def env_int(key, default=0):
+    try:
+        return int(str(env(key, default)))
+    except (TypeError, ValueError):
+        return default
+
+
+# SECURITY
+SECRET_KEY = env(
+    "SECRET_KEY",
+    "django-insecure-530&!d859$(w9wb-_kln9=spacz_(*f+=s@k&(4^sgini1%64a",
+)
+DEBUG = env_bool("DEBUG", "True")
+ALLOWED_HOSTS = [
+    h.strip()
+    for h in env("ALLOWED_HOSTS", "localhost,127.0.0.1,0.0.0.0,.ngrok-free.app").split(",")
+    if h.strip()
+]
+CSRF_TRUSTED_ORIGINS = [
+    o.strip()
+    for o in env(
+        "CSRF_TRUSTED_ORIGINS",
+        "http://localhost:8001,http://127.0.0.1:8001,https://*.ngrok-free.app"
+    ).split(",")
+    if o.strip()
+]
 
 INSTALLED_APPS = [
     'hello',
@@ -63,6 +100,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'hello.context.site_settings',
             ],
         },
     },
@@ -72,61 +110,89 @@ WSGI_APPLICATION = 'myrailabs.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if env("DB_ENGINE", "").startswith("postgres"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env("DB_NAME", "myrailabs"),
+            "USER": env("DB_USER", "myrailabs"),
+            "PASSWORD": env("DB_PASSWORD", ""),
+            "HOST": env("DB_HOST", "127.0.0.1"),
+            "PORT": env("DB_PORT", "5432"),
+        }
     }
-}
-
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+# Internationalization — Myrai Labs operates on SA time
+LANGUAGE_CODE = "en-za"
+TIME_ZONE = env("TIME_ZONE", "Africa/Johannesburg")
 USE_I18N = True
-
 USE_TZ = True
 
+# Static & media
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "hello" / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL = "media/"
+MEDIA_ROOT = Path(env("MEDIA_ROOT", str(BASE_DIR / "media")))
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
 
-import os
-from pathlib import Path
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# Myrai Labs business identity
+BUSINESS_NAME = "Myrai Labs"
+BUSINESS_TAGLINE = "Digital Solutions. Intelligent Systems. Verified Impact."
+BUSINESS_PHONE = env("BUSINESS_PHONE", "078 233 9131")
+BUSINESS_EMAIL = env("BUSINESS_EMAIL", "info@myrailabs.com")
+BUSINESS_LOCATION = "Giyani, Limpopo, South Africa, 0826"
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "hello" / "static",
-]
+def _to_wa_intl(number):
+    """Normalise an SA number (078 233 9131) to international (27782339131)."""
+    digits = "".join(c for c in number if c.isdigit())
+    if digits.startswith("0"):
+        return "27" + digits[1:]
+    return digits
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+WHATSAPP_NUMBER = _to_wa_intl(BUSINESS_PHONE)
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Email
+EMAIL_BACKEND = env(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.console.EmailBackend",
+)
+EMAIL_HOST = env("EMAIL_HOST", "")
+EMAIL_PORT = env_int("EMAIL_PORT", 587)
+EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", "True")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", "")
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", "vuentib@gmail.com")
+ADMIN_NOTIFY_EMAIL = env("ADMIN_NOTIFY_EMAIL", BUSINESS_EMAIL)
+
+# WhatsApp
+WHATSAPP_ENABLED = env_bool("WHATSAPP_ENABLED", "False")
+WHATSAPP_PHONE_ID = env("WHATSAPP_PHONE_ID", "")
+WHATSAPP_TOKEN = env("WHATSAPP_TOKEN", "")
+WHATSAPP_API_VERSION = env("WHATSAPP_API_VERSION", "v21.0")
+WHATSAPP_ALERT_TO = env("WHATSAPP_ALERT_TO", WHATSAPP_NUMBER)
+
+# Anti-spam throttles
+QUOTE_MAX_PER_HOUR = env_int("QUOTE_MAX_PER_HOUR", 5)
+CONTACT_MAX_PER_HOUR = env_int("CONTACT_MAX_PER_HOUR", 10)
+
+# Admin branding
+ADMINS = [("Myrai Labs", ADMIN_NOTIFY_EMAIL)] if ADMIN_NOTIFY_EMAIL else []

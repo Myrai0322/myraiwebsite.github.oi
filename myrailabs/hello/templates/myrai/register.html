@@ -1,32 +1,26 @@
+{% extends "myrai/layout.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Registration</title>
-        <link rel="stylesheet" href="{% static 'myrai/style.css' %}">
-        <style>
-            body {
-                background-image: url('{% static "myrai/background.png" %}');
-            }
-        </style>
-    </head>
-    <body>
-        <header class="header">
-            <div class="logo-container">
-                <img src="{% static 'myrai/logo.png' %}" alt="Myrai Labs" class="logo">
-            </div>
-        </header>
-    
-        <div id="forms" style="border-radius: 20px; padding: 25px; max-width: 950px; margin: 20px auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); align-items: center; width: 600px; background-color: rgb(221, 240, 154); border: 2px; border-radius: 2px;">
+{% block title %}Register — {{ BUSINESS.name }}{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+    <div class="bubble auth-card">
+        <h1>CREATE ACCOUNT</h1>
+        <p class="page-intro">One account for all your Myrai Labs orders.</p>
+        <form method="post" class="stack-form">
             {% csrf_token %}
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" style="background-color: rgb(11, 36, 94); text-align: center; font-size: larger; align-items: center;">REGISTER</button>
-            </form>
-        </div>
-    </body>
-</html>
+            {% for field in form.visible_fields %}
+                <div class="form-row">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}<p class="field-help">{{ field.help_text }}</p>{% endif %}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn primary-btn full-width">Register &#8594;</button>
+        </form>
+        <p class="auth-alt">Already registered? <a href="{% url 'login' %}">Sign in</a></p>
+    </div>
+</div>
+{% endblock %}
