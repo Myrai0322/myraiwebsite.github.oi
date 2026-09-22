@@ -1,0 +1,25 @@
+labsenv/
+# Environment files - NEVER COMMIT THESE
+.env
+.env.local
+.env.prod
+*.pem
+*.key
+
+# Database
+*.db
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+.env
+.env.docker
